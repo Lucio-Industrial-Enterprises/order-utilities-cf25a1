@@ -8,6 +8,11 @@ class RateTests(unittest.TestCase):
         self.assertEqual(shipping_quote(2, "local"), 8.0)
         self.assertEqual(shipping_quote(2, "regional"), 11.0)
 
+    def test_fractional_weight_rates(self):
+        for zone, expected in (("local", 5.75), ("regional", 8.75)):
+            with self.subTest(zone=zone):
+                self.assertEqual(shipping_quote(0.5, zone), expected)
+
     def test_invalid_weight(self):
         with self.assertRaises(ValueError):
             shipping_quote(0, "local")
